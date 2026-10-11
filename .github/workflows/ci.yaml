@@ -17,6 +17,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install Lambda dependencies
+        working-directory: lambda
+        run: npm ci
+
+      - name: Package Lambda
+        working-directory: lambda
+        run: npm run package
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -57,13 +70,13 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         working-directory: lambda
         run: snyk test --all-projects 
-     
+
       # Scan source code for security issues (Snyk Code/SAST).
       - name: Run Snyk Code test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk code test
-     
+
       # Scan Terraform configuration for infrastructure-as-code issues.
       - name: Run Snyk IaC test
         env:
@@ -75,5 +88,4 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         working-directory: lambda
-        run: snyk monitor --all-projects 
-        
+        run: snyk monitor --all-projects
