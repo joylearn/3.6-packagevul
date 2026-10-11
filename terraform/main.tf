@@ -7,6 +7,14 @@ terraform {
   }
 
   required_version = ">= 1.0.0"
+
+  backend "s3" {
+    bucket         = "joylearn-3-6-packagevul-tfstate-255945442255"
+    key            = "terraform/terraform.tfstate"
+    region         = "ap-southeast-1"
+    dynamodb_table = "joylearn-3-6-packagevul-tf-locks"
+    encrypt        = true
+  }
 }
 
 provider "aws" {

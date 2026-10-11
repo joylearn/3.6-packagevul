@@ -34,6 +34,25 @@ terraform -chdir=terraform/bootstrap output -raw github_actions_role_arn
 ```
 
 In the GitHub repository, open **Settings → Secrets and variables → Actions**
-and add a repository secret named `OIDC_ROLE` with that ARN as its value. Add
+and add a repository variable named `OIDC_ROLE` with that ARN as its value. Add
 `SNYK_TOKEN` as a separate repository secret for the pull-request scan. Never
 commit AWS credentials, secret values, or Terraform state files.
+
+The bootstrap also creates an encrypted, versioned S3 bucket and DynamoDB lock
+table for the Lambda deployment's Terraform state. After applying the bootstrap,
+initialize the deployment's remote state from the repository root:
+
+```sh
+npm run package --prefix lambda
+terraform -chdir=terraform init
+terraform -chdir=terraform import aws_iam_role.lambda_exec hello-world-nodejs-exec
+terraform -chdir=terraform plan
+```
+
+The Lambda execution role already exists in AWS but was not created by the
+deployment's Terraform state. Importing it once prevents Terraform from trying
+to create a duplicate.
+Keep the resulting state in the configured S3 backend. Do not commit local
+Terraform state files. CI validation initializes Terraform with
+`-backend=false`; the deployment workflow uses the remote backend after
+authenticating to AWS.
