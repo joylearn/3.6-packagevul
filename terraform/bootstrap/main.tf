@@ -80,6 +80,7 @@ data "aws_iam_policy_document" "terraform_deploy" {
       "iam:CreateRole",
       "iam:DeleteRole",
       "iam:GetRole",
+      "iam:ListRolePolicies",
       "iam:ListAttachedRolePolicies",
       "iam:ListRoleTags",
       "iam:TagRole",
