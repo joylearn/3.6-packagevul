@@ -116,6 +116,7 @@ data "aws_iam_policy_document" "terraform_deploy" {
       "lambda:GetFunction",
       "lambda:GetFunctionConfiguration",
       "lambda:ListTags",
+      "lambda:ListVersionsByFunction",
       "lambda:TagResource",
       "lambda:UntagResource",
       "lambda:UpdateFunctionCode",
