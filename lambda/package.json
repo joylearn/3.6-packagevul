@@ -1,0 +1,10 @@
+{
+  "name": "hello-lambda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No tests\"",
+    "package": "zip -r ../terraform/lambda.zip ."
+  },
+  "dependencies": {}
+}
