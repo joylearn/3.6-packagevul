@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "github_actions_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repository_owner}/${var.github_repository_name}:ref:refs/heads/main"]
+      values   = ["repo:joylearn@13690355/3.6-packagevul@1408761384:ref:refs/heads/main"]
     }
   }
 }
