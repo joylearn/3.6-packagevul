@@ -45,4 +45,8 @@ resource "aws_lambda_function" "hello" {
   runtime          = "nodejs18.x"
   source_code_hash = filebase64sha256("${path.module}/lambda.zip")
   timeout          = 10
+
+  tracing_config {
+    mode = "PassThrough"
+  }
 }
